@@ -4,50 +4,33 @@ import axios from "axios";
 import style from "./App.css"
 
 export default function App() {
-  const [data, setData] = useState();
-  const [title, setTitle] = useState("");
+  const [tel, setTel] = useState("");
 
-  var getData = async () => {
-    try {
-      const res = await fetch("http://localhost:4000/database");
-
-      if (res.status >= 400) {
-        throw new Error("Bad response from server");
-      }
-      const fetchdata = await res.json();
-
-      setData(fetchdata)
-      console.log(data);
-
-      
-      
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-
-  useEffect(()=>{
-    getData()
-  }, [])
-
-  var addData = async () => {
-    axios.post("http://localhost:4000/adddata", {title: title})
+  var otpsent = async () => {
+    axios.post("http://localhost:4000/", {tel: tel})
   };
 
   
-  // if(data){
-  //   const showdata = data.map((val, index)=> (<p key={index}>{val.title}</p>))
-  // }
+
 
   return (
-    <div>
-      <image ref={"https://media.discordapp.net/attachments/910906130631372841/973501975738077254/unknown.png?width=1440&height=330"}></image>
-      <div>Enter Title</div>
-      <input type="text" onChange={(val)=> setTitle(val.target.value)}/>
-      <button onClick={() => addData()}>add data</button>
-      <button onClick={() => getData()}>showdata</button>
-      {data ? data.map((val, index)=> (<p key={index}>title is {val.title}</p>)): ""}
+    <div style={{textAlign: "center"}}>
+      <img style={{width: "100%"}} src="https://media.discordapp.net/attachments/910906130631372841/973501975738077254/unknown.png?width=1440&height=330"></img>
+      <h2 style={{color : "red"}}>กรุณากรอกข้อมูลเพื่อตรวจสอบ<br></br>
+      Please fill out the information to verify.</h2>
+      <p>
+      กรอกเบอร์โทรศัพท์มือถือ<br></br>
+      เพื่อรับ OTP เพื่อยืนยันตัวตน<br></br>
+      Please enter your mobile phone number.<br></br>
+      to receive OTP to verify identity
+      </p>
+      <h3>เบอร์โทรศัพท์มือถือ / Mobile number </h3>
+      <input type="text" placeholder="Please enter your mobile number" style={{width:"22%"}}  onChange={(val)=> setTel(val.target.value)}/>
+      <br />
+      <u style={{color:"red"}}>ลูกค้า TrueOnline และ TrueVision คลิกที่นี่<br></br>
+      For TrueOnline and Truevision customer click here</u>
+      <br></br>
+      <button onClick={()=>otpsent()}>ขอรหัส OTP/ GET OTP</button>
 
     </div>
   )

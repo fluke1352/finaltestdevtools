@@ -1,6 +1,7 @@
 const express = require("express");
 const tel = require("./models/tel.model")
 const info = require("./models/model")
+const otp = require("./models/otp.model")
 var cors = require("cors");
 const app = express();
 const port = 4000;
@@ -37,11 +38,15 @@ app.post("/checktel", async (req, res) => {
     let tels = req.body.tel;
     let status = false
     console.log(tels);
-
+    
     const data = await tel.find({});
     data.map((val) => {if (val.tel == tels){status = true};})
     // res.send(data);
-    if(status){res.send("true");}
+    if(status){
+      var val = Math.floor(1000 + Math.random() * 9000);
+      const check = new otp({"jim": tel, "otp": val})
+      res.send("true");
+    }
     else{res.send("false");}
 
   } 
