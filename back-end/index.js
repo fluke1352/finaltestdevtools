@@ -23,8 +23,8 @@ mongoose.connection.on("error", () => {
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
-  });
-  
+});
+
 
 app.get("/", (req, res) => {
   res.json({
@@ -38,18 +38,21 @@ app.post("/checktel", async (req, res) => {
     let tels = req.body.tel;
     let status = false
     console.log(tels);
-    
-    const data = await tel.find({});
-    data.map((val) => {if (val.tel == tels){status = true};})
-    // res.send(data);
-    if(status){
-      var val = Math.floor(1000 + Math.random() * 9000);
-      const check = new otp({"jim": tel, "otp": val})
-      res.send("true");
-    }
-    else{res.send("false");}
 
-  } 
+    const data = await tel.find({});
+    data.map((val) => { if (val.tel == tels) { status = true }; })
+    // res.send(data);
+    if (status) {
+
+      var val = Math.floor(1000 + Math.random() * 9000);
+      const check = new otp({ "tel": tels, "otp": val })
+      await check.save()
+      res.send("true");
+
+    }
+    else { res.send("false"); }
+
+  }
 
   catch (error) {
     res.status(500).send(error);
@@ -57,7 +60,6 @@ app.post("/checktel", async (req, res) => {
 });
 
 app.post("/adddata", async (req, res) => {
-info
   try {
     let infos = req.body
     const addData = new info(infos)
@@ -65,7 +67,7 @@ info
     await addData.save()
     res.send("added");
 
-  } 
+  }
 
   catch (error) {
     res.status(500).send(error);
@@ -73,14 +75,33 @@ info
 });
 
 app.get("/getotp", async (req, res) => {
-  info
-    try {
-      var val = Math.floor(1000 + Math.random() * 9000);
-      res.send(""+val);
-  
-    } 
-    
-    catch (error) {
-      res.status(500).send(error);
-    }
-  });
+  try {
+    var val = Math.floor(1000 + Math.random() * 9000);
+    res.send("" + val);
+
+  }
+
+  catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.post("/checkotp", async (req, res) => {
+  try {
+    let tels = req.body.tel;
+    let otpp = req.body.otp;
+    let status = false
+    console.log(tels);
+
+    const data = await otp.find({});
+    console.log(data);
+    data.map((val) => { if (val.tel == tels && val.otp == otpp) { status = true }; })
+    if(status){res.send("true");}
+    else{res.send("false");}
+
+  }
+
+  catch (error) {
+    res.status(500).send(error);
+  }
+});

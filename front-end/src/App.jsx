@@ -5,12 +5,15 @@ import style from "./App.css"
 
 export default function App() {
   const [tel, setTel] = useState("");
+  const [otp, setOtp] = useState("");
 
   var otpsent = async () => {
-    axios.post("http://localhost:4000/", {tel: tel})
+    axios.post("http://localhost:4000/checktel", {tel: tel})
   };
 
-  
+  var checkotp = async () => {
+    axios.post("http://localhost:4000/checkotp", {tel: tel, otp:otp})
+  };
 
 
   return (
@@ -31,6 +34,9 @@ export default function App() {
       For TrueOnline and Truevision customer click here</u>
       <br></br>
       <button onClick={()=>otpsent()}>ขอรหัส OTP/ GET OTP</button>
+      <br></br>
+      <input type="text" placeholder="enter OTP" onChange={(val)=> setTel(val.target.value)}/>
+      <button onClick={()=>checkotp()}>check OTP</button>
 
     </div>
   )
