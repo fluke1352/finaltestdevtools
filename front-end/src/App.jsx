@@ -12,7 +12,12 @@ export default function App() {
   };
 
   var checkotp = async () => {
-    axios.post("http://localhost:4000/checkotp", {tel: tel, otp:otp})
+    axios.post("http://localhost:4000/checkotp", {tel: tel, otp:otp}).then((res)=>{
+      console.log(res.data);
+      if(res.data){alert("true otp")}
+      else{alert("false otp")}
+    })
+    
   };
 
 
@@ -35,7 +40,7 @@ export default function App() {
       <br></br>
       <button onClick={()=>otpsent()}>ขอรหัส OTP/ GET OTP</button>
       <br></br>
-      <input type="text" placeholder="enter OTP" onChange={(val)=> setTel(val.target.value)}/>
+      <input type="text" placeholder="enter OTP" onChange={(val)=> setOtp(val.target.value)}/>
       <button onClick={()=>checkotp()}>check OTP</button>
 
     </div>

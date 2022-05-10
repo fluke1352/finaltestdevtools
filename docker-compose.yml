@@ -12,3 +12,10 @@ services:
     restart: always
     ports:
       - 4000:4000
+      - 9464:9464
+  prometheus:
+    image: prometheus/final:1.0.0
+    build: ./prometheus
+    restart: always
+    ports:
+      - 9090:9090
